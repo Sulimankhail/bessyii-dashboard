@@ -3,13 +3,10 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pymongo import MongoClient
 
-from src.controller.machine_controller import router as machine_router
-
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="."), name="static")
 templates = Jinja2Templates(directory=".")
-app.include_router(machine_router)
-app.mongodb_client = MongoClient("mongodb://localhost:27017/")  # use this if you are writing to your local machine.
+app.mongodb_client = MongoClient("mongodb://localhost:27017/")
 app.database = app.mongodb_client["bessyii"]
 
 @app.get("/")
