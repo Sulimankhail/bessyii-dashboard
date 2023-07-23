@@ -1,15 +1,186 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
   <head>
     <title>My Machine Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   </head>
   <body>
     <form>
+      <h1>welcome</h1>
+      <div class="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+          Dropdown button
+        </button>
+        <ul class="dropdown-menu">
+          {% for item in countries %}
+          <li><a class="dropdown-item" href="#">{{item}}</a></li>
+          {% endfor %}
+      </ul>
+      </div>
       <label for="machineId">Machine ID:</label>
       <input type="text" id="machineId" name="machineId"><br><br>
-      <button type="button" id="submitBtn">Submit</button>
+      <button class="btn btn-primary" type="button" id="submitBtn">Submit</button>
     </form>
     <div id="response"></div>
-    <script src="/main.js"></script>
+    <script src="static/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
   </body>
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Machine Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+  <div class="jumbotron text-center" style="background-color: #6aadf4;">
+    <h1 style="color: white;">Wilkommen</h1>
+  </div>
+  <div class="container">
+    <div class="row border p-3">
+      <div class="col-3">
+        <div class="">
+          <label for="measurementType">Select measurement type:</label>
+          <select class="form-select" id="measurementType">
+            <option value="Type 1">Type 1</option>
+            <option value="Type 2">Type 2</option>
+            <option value="Type 3">Type 3</option>
+            <!-- Add more options as needed -->
+          </select>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="">
+          <label for="configuration">Select configuration:</label>
+          <select class="form-select" id="configuration">
+            <option value="Configuration A">Configuration A</option>
+            <option value="Configuration B">Configuration B</option>
+            <option value="Configuration C">Configuration C</option>
+            <!-- Add more options as needed -->
+          </select>
+        </div>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-info mt-4" type="button" id="executeBtn">Execute</button>
+      </div>
+      <div class="col-4">
+        <div class="border p-3">
+          <label for="measurementResult">Measurement result:</label>
+          <div id="measurementResult"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- New row for "Enter measurement ID," "Analyze" button, and dropdown list -->
+    <div class="row border p-3 mt-3">
+      <div class="col-4">
+        <div class="">
+          <label for="enterMeasurementID">Enter measurement ID:</label>
+          <input class="form-control" type="text" id="enterMeasurementID">
+        </div>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-success mt-4" type="button" id="analyzeBtn">Analyze</button>
+      </div>
+      
+      <div class="col-3">
+        <div class="">
+          <label for="analyzeChart">Select chart for analysis:</label>
+          <select class="form-select" id="analyzeChart">
+            <option value="Chart 1">Chart 1</option>
+            <option value="Chart 2">Chart 2</option>
+            <option value="Chart 3">Chart 3</option>
+            <!-- Add more options as needed -->
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col">
+        <div id="chartDiv" style="border: 1px solid #dee2e6; padding: 10px; min-height: 300px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript code to handle button click and chart rendering based on dropdown selections
+    document.getElementById("executeBtn").addEventListener("click", function() {
+      // Fetch selected values
+      const measurementType = document.getElementById("measurementType").value;
+      const configuration = document.getElementById("configuration").value;
+
+      // Display output in the measurementResult div
+      document.getElementById("measurementResult").innerText = `Measurement ID: ${measurementType}, Configuration: ${configuration}`;
+    });
+
+    // Add an event listener to the dropdown to render the chart on change
+    document.getElementById("analyzeChart").addEventListener("change", function() {
+      const selectedValue = this.value;
+      renderChart(selectedValue);
+    });
+
+    // Function to render the chart based on the selected value
+    function renderChart(selectedValue) {
+      // Replace this with your actual chart rendering logic using Plotly
+      // Example chart rendering code:
+      const trace = {
+        x: [1, 2, 3, 4, 5],
+        y: [selectedValue === "Configuration A" ? 10 : 5, 8, 6, 4, 2],
+        type: "scatter"
+      };
+      const layout = {
+        title: `Chart for ${selectedValue}`,
+        xaxis: {
+          title: "X-axis"
+        },
+        yaxis: {
+          title: "Y-axis"
+        }
+      };
+      const data = [trace];
+      Plotly.newPlot("chartDiv", data, layout);
+    }
+
+    // Add event listener to "Analyze" button to load chart based on dropdown selection
+    document.getElementById("analyzeBtn").addEventListener("click", function() {
+      const selectedChart = document.getElementById("analyzeChart").value;
+      renderAnalyzeChart(selectedChart);
+    });
+
+    // Function to render the chart for analysis based on the selected value
+    function renderAnalyzeChart(selectedChart) {
+      // Replace this with your actual chart rendering logic using Plotly
+      // Example chart rendering code:
+      const trace = {
+        x: [1, 2, 3, 4, 5],
+        y: [selectedChart === "Chart 1" ? 10 : 5, 8, 6, 4, 2],
+        type: "scatter"
+      };
+      const layout = {
+        title: `Analysis Chart for ${selectedChart}`,
+        xaxis: {
+          title: "X-axis"
+        },
+        yaxis: {
+          title: "Y-axis"
+        }
+      };
+      const data = [trace];
+      Plotly.newPlot("chartDiv", data, layout);
+    }
+  </script>
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js" onload="loadMainJS()"></script>
+  <script src="main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
 </html>
+
